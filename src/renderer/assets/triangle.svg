@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70.711" height="70.711" viewBox="0 0 70.711 70.711">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: none;
+      }
+
+      .cls-3 {
+        fill: #f5ac40;
+      }
+    </style>
+  </defs>
+  <g id="多边形_2" data-name="多边形 2" class="cls-1" transform="translate(0 38.184) rotate(-45)">
+    <path class="cls-2" d="M27,0,54,46H0Z"/>
+    <path class="cls-3" d="M 27 1.975509643554688 L 1.746494293212891 45 L 52.25350570678711 45 L 27 1.975509643554688 M 27 0 L 54 46 L 0 46 L 27 0 Z"/>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #707070;
+        opacity: 0.3;
+      }
+
+      .cls-2 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="椭圆_172" data-name="椭圆 172" class="cls-1">
+    <circle class="cls-2" cx="19" cy="19" r="19"/>
+    <circle class="cls-3" cx="19" cy="19" r="18.5"/>
+  </g>
+</svg>
