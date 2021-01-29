@@ -12,7 +12,7 @@
       <div class="operate-btn enter-fade">
         <el-button class="start-btn" type="success" @click="sendCard" :disabled="sending">开始</el-button>
         <br>
-        <el-button @click="$router.push('/Directory')">返回</el-button>
+        <el-button @click="$router.push('/Directory')">取消</el-button>
       </div>
     </div>
     <transition name="fade">
