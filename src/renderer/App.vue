@@ -26,7 +26,6 @@
     mounted() {
       // this.$router.push('/Directory')
       // this.$router.push('/SendInfo')
-      const content = document.getElementsByTagName('body')[0]
     },
     beforeDestroy() {
       miniWindow && miniWindow.close()

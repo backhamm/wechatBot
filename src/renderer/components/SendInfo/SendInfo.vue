@@ -2,17 +2,18 @@
   <div class="send-info">
     <img class="send-bg2" width="162" src="@/assets/send-bg2.png" alt="">
     <p class="title enter-fade">选择了{{userList.length}}名联系人，大概需要{{Math.ceil(userList.length * 5 / 60)}}分钟；</p>
-    <p>请使用您的企业微信并打开要被转移好的微信聊天窗口发送“开始”</p>
+    <p class="title-tips">点击“启动”，从企业微信搜索被迁移的微信好友，</p>
+    <p class="title-tips">在聊天窗口中发送文字 “开始”</p>
     <div class="tips">
-      <p style="margin-bottom: 16px">重要提示</p>
+      <p style="margin-bottom: 16px"><i class="el-icon-info"></i>重要提示</p>
       <p>1、企业微信聊天窗口需要关闭侧边栏及聊天记录窗口</p>
       <p style="margin-bottom: 34px">2、原始窗口打字栏需要拉到最下</p>
       <p>开始后，系统将自动操作，在此期间，请不要随意移动鼠标或操作键盘</p>
       <p>添加完成后，系统会自动弹出窗口进行提示</p>
       <div class="operate-btn enter-fade">
-        <el-button class="start-btn" type="success" @click="sendCard" :disabled="sending">开始</el-button>
+        <el-button class="start-btn" type="success" @click="sendCard" :disabled="sending">启动</el-button>
         <br>
-        <el-button @click="$router.push('/Directory')">取消</el-button>
+        <el-button style="font-size: 14px" @click="$router.push('/Directory')">返回上一步</el-button>
       </div>
     </div>
     <transition name="fade">
@@ -93,14 +94,24 @@
       font-size: 32px;
     }
 
+    .title-tips {
+      line-height: 2;
+      font-size: 13px;
+    }
+
     .tips {
       position: relative;
-      margin-top: 110px;
+      margin-top: 80px;
       padding: 23px 22px;
       height: 200px;
       font-size: 14px;
       background: #fff;
       color: #333;
+
+      .el-icon-info {
+        margin-right: 8px;
+        color: #1890FF;
+      }
 
       .operate-btn {
         position: absolute;

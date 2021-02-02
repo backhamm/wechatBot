@@ -1,7 +1,7 @@
 <template>
   <div class="tips-page">
     <breathing />
-    <p class="title">初始化说明</p>
+    <p class="title">初始化引导</p>
     <p class="title-tips">(在你操作该工具前，请确保已完成以下外部操作)</p>
     <div class="tips-container enter-fade">
       <div class="header">
@@ -9,7 +9,7 @@
           <span v-for="i of 4" :key="i" class="num" :class="{'active': currentStep === i}">{{ i }}</span>
         </div>
         <div class="step-text">
-          <span v-for="i of ['安装微信客户端', '显示设置', '登录企业微信', '完成']" :key="i" class="text-item">{{ i }}</span>
+          <span v-for="i of ['显示设置', '安装微信客户端', '重启企业微信', '完成']" :key="i" class="text-item">{{ i }}</span>
         </div>
       </div>
       <div class="main">

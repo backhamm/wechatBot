@@ -3,22 +3,19 @@
     <div class="left">
       <div class="left-title">
         通讯录（<span style="color: #0078EF">{{ userList.length }}</span>人）
-        <el-input class="search-input" v-model.trim="searchKey" placeholder="搜索" size="mini"
-                  prefix-icon="el-icon-search"></el-input>
+        <div style="float: right">
+          <el-checkbox style="margin-right: 20px" v-model="notOperated">只显示未操作</el-checkbox>
+          <el-input style="width: 150px" v-model.trim="searchKey" placeholder="搜索" size="mini" prefix-icon="el-icon-search"></el-input>
+        </div>
       </div>
       <el-table
         :data="FilterUserList"
         ref="multipleTable"
         style="width: 100%; padding: 0 20px"
         @selection-change="selectionChange"
-        height="calc(100% - 55px)"
+        height="calc(100% - 90px)"
       >
-        <el-table-column type="selection" width="30"></el-table-column>
-        <el-table-column width="40">
-          <template slot="header" slot-scope="scope">
-            <el-button type="text" size="mini" @click="reverse">反选</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column type="selection"></el-table-column>
         <el-table-column label="昵称" min-width=180 show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="user-icon" :style="{background: scope.row.iconBg}">{{ scope.row.remark.slice(0, 1) }}</span>
@@ -32,6 +29,10 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="select-content">
+        <el-button size="mini" @click="selectAll">全选</el-button>
+        <el-button size="mini" @click="reverse">反选</el-button>
+      </div>
     </div>
     <div class="right" :style="{width: selectionList.length ? '200px' : 0}">
       <div class="wrapper">
@@ -65,7 +66,8 @@
         userList: [],
         selectionList: [],
         copySelectionList: [],
-        searchKey: ''
+        searchKey: '',
+        notOperated: false
       }
     },
     watch: {
@@ -84,12 +86,13 @@
     },
     computed: {
       FilterUserList() {
+        const list = this.notOperated ? this.userList.filter(el => el.mark === '未操作') : this.userList
         if (this.searchKey) {
-          return this.userList.filter(el => {
-            return ['nickname', 'remark', 'mark'].some(key => el[key].indexOf(this.searchKey) > -1)
+          return list.filter(el => {
+            return ['nickname', 'remark'].some(key => el[key].indexOf(this.searchKey) > -1)
           })
         }
-        return this.userList
+        return list
       }
     },
     sockets: {
@@ -135,7 +138,7 @@
         //     'wxid': 'wxid_www'
         //   }, {
         //     'account': '54541',
-        //     'nickname': 'qqq',
+        //     'nickname': '54qqq',
         //     'remark': '222',
         //     'wxid': 'wxid_qqq'
         //   }, {
@@ -143,6 +146,46 @@
         //     'nickname': '睡不醒🌙1',
         //     'remark': '333',
         //     'wxid': 'wxid_eee'
+        //   }, {
+        //     'account': 'qqq',
+        //     'nickname': 'qqq',
+        //     'remark': '111',
+        //     'wxid': 'qqq'
+        //   }, {
+        //     'account': 'www',
+        //     'nickname': 'www',
+        //     'remark': '222',
+        //     'wxid': 'www'
+        //   }, {
+        //     'account': 'eee',
+        //     'nickname': 'eee',
+        //     'remark': '111',
+        //     'wxid': 'eee'
+        //   }, {
+        //     'account': 'rrr',
+        //     'nickname': 'rrr',
+        //     'remark': '222',
+        //     'wxid': 'rrr'
+        //   }, {
+        //     'account': 'ttt',
+        //     'nickname': 'ttt',
+        //     'remark': '333',
+        //     'wxid': 'ttt'
+        //   }, {
+        //     'account': 'aaa',
+        //     'nickname': 'aaa',
+        //     'remark': '111',
+        //     'wxid': 'aaa'
+        //   }, {
+        //     'account': 'sss',
+        //     'nickname': 'sss',
+        //     'remark': '222',
+        //     'wxid': 'sss'
+        //   }, {
+        //     'account': 'ddd',
+        //     'nickname': 'ddd',
+        //     'remark': '333',
+        //     'wxid': 'ddd'
         //   }
         // ]
         // sessionStorage.setItem('userList', JSON.stringify(list))
@@ -173,12 +216,16 @@
           this.copySelectionList = val.slice()
         })
       },
+      selectAll() {
+        if (this.FilterUserList.length === this.selectionList.length) {
+          this.$refs.multipleTable.clearSelection()
+        } else {
+          const list = this.FilterUserList.filter(el => !this.selectionList.some(item => item.wxid === el.wxid))
+          list.forEach(el => this.$refs.multipleTable.toggleRowSelection(el))
+        }
+      },
       reverse() {
-        const list = this.FilterUserList.filter(el => !this.selectionList.some(item => item.wxid === el.wxid))
-        this.$refs.multipleTable.clearSelection()
-        list.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
+        this.FilterUserList.forEach(el => this.$refs.multipleTable.toggleRowSelection(el))
       },
       checkUser() {
         this.$socket.emit('check_user')
@@ -202,8 +249,12 @@
       display: none;
     }
 
-    /deep/ .el-table th:nth-child(3) > .cell {
+    /deep/ .el-table th:nth-child(2) > .cell {
       padding-left: 43px;
+    }
+
+    /deep/ .el-table::before {
+      height: 0;
     }
 
     .title-icon {
@@ -265,10 +316,14 @@
         font-size: 12px;
         color: #606366;
 
-        .search-input {
-          float: right;
-          width: 150px;
+        /deep/ .el-checkbox__label {
+          font-size: 12px;
         }
+      }
+
+      .select-content {
+        line-height: 42px;
+        padding-left: 30px;
       }
 
       .user-icon {
